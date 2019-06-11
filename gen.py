@@ -60,13 +60,15 @@ class Polynomial:
     def __divmod__(self, p):
         res = Polynomial()
         temp = Polynomial([fact for fact in self.factors])
-        for num, factor in enumerate(temp.factors):
+        for num in range(len(temp.factors)):
+            factor = temp.factors[num]
             degree = self.degree() - num 
             if degree < p.degree():
                 break
             #создание многочлена - множителя
             quotient = Polynomial([factor / p.factors[0]] + [0] * (degree -
             p.degree()))
+            print(temp, p*quotient)
             temp -= (p * quotient)
             res += quotient
         return res, temp
@@ -156,7 +158,7 @@ class ModInt():
     def __truediv__(self, other):
         if not self.value:
             return ModInt(0, self.base)
-        gcd, mul = EvcAlg(self.value, self.base)
+        gcd, mul = EvcAlg(other.value, self.base)
         if gcd != 1:
             raise ValueError
         #mul[0] - обратный элемент в кольце по модулю base
